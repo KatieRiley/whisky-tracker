@@ -20,11 +20,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_22_032945) do
   create_table "whiskies", force: :cascade do |t|
     t.integer "rating"
     t.text "tasting_notes"
-    t.integer "locations_id", null: false
+    t.integer "location_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["locations_id"], name: "index_whiskies_on_locations_id"
+    t.index ["location_id"], name: "index_whiskies_on_location_id"
   end
 
-  add_foreign_key "whiskies", "locations", column: "locations_id"
+  add_foreign_key "whiskies", "locations"
 end

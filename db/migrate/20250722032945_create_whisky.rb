@@ -3,7 +3,7 @@ class CreateWhisky < ActiveRecord::Migration[7.1]
     create_table :whiskies do |t|
       t.integer :rating
       t.text :tasting_notes
-      t.references :locations, null: false, foreign_key: true
+      t.references :location, null: false, foreign_key: true
 
       t.timestamps
     end
