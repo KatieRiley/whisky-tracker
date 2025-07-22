@@ -69,3 +69,5 @@ group :test do
 
   gem "rspec-rails"
 end
+
+gem "vite_rails", "~> 3.0"
