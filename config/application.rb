@@ -23,5 +23,10 @@ module WhiskyTracker
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    config.generators do |g|
+      g.jbuilder false
+      g.template_engine false
+      g.test_framework :rspec
+    end
   end
 end
