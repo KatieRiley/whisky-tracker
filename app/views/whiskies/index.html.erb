@@ -1,6 +1,12 @@
-<><div
-  id="react-root"
-  data-react-props='<%= raw({ name: "Katie" }.to_json) %>'
+
+<div
+  id="whisky"
+  data-react-props='<%= raw({ whiskies: @whiskies.as_json(only: [:id, :name, :location_id, :tasting_notes]) }.to_json) %>'
 ></div>
-</>
-<%= vite_javascript_tag "application.jsx", "data-turbo-track": "reload" %>
+
+<div
+  id="location"
+  data-react-props='<%= raw({ locations: @locations.as_json(only: [:id, :name]) }.to_json) %>'
+></div>
+
+<div id="app"></div>

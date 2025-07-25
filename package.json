@@ -9,6 +9,9 @@
     "dev": "bin/vite dev"
   },
   "dependencies": {
+    "@emotion/cache": "^11.10.5",
+    "@emotion/react": "^11.10.5",
+    "@planningcenter/tapestry-react": "^4.11.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   }
