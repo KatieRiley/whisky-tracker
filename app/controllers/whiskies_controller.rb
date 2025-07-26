@@ -4,6 +4,11 @@ class WhiskiesController < ApplicationController
   # GET /whiskies or /whiskies.json
   def index
     @whiskies = Whisky.all
+
+    respond_to do |format|
+      format.html # renders index.html.erb (which includes your React mount)
+      format.json { render json: @whiskies }
+    end
   end
 
   # GET /whiskies/1 or /whiskies/1.json
@@ -25,8 +30,7 @@ class WhiskiesController < ApplicationController
 
     respond_to do |format|
       if @whisky.save
-        format.html { redirect_to @whisky, notice: "Whisky was successfully created." }
-        format.json { render :show, status: :created, location: @whisky }
+        format.json { render json: @whiskies }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @whisky.errors, status: :unprocessable_entity }
@@ -65,6 +69,11 @@ class WhiskiesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def whisky_params
-      params.fetch(:whisky, {})
+      params.fetch(:whisky).permit(
+        :tasting_notes,
+        :name,
+        :rating,
+        :location_id
+      )
     end
 end

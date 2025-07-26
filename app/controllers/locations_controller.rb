@@ -4,6 +4,11 @@ class LocationsController < ApplicationController
   # GET /locations or /locations.json
   def index
     @locations = Location.all
+
+    respond_to do |format|
+      format.html # renders index.html.erb (which includes your React mount)
+      format.json { render json: @locations }
+    end
   end
 
   # GET /locations/1 or /locations/1.json
