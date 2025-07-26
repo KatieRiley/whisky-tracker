@@ -11,6 +11,7 @@ import {
   StackView,
 } from '@planningcenter/tapestry-react'
 import _ from 'lodash'
+import { keysToCamelCase, keysToSnakeCase } from "../utils/keysToSnakeCase"
 
 export default function HelloComponent({}) {
 
@@ -24,12 +25,12 @@ export default function HelloComponent({}) {
   const [locationId, setLocationId] = useState(0)
 
   const getData = async (what) => {
-    const data = await fetch(`${API_URL}/${what}`, {
+    const response = await fetch(`${API_URL}/${what}`, {
       headers: {
         Accept: "application/json",
       },
     })
-    const json =  data.json()
+    const json =  response.json()
     return json
   }
 
@@ -38,6 +39,14 @@ export default function HelloComponent({}) {
   }
 
   const addWhisky = async () => {
+    const newWhiskyData = keysToSnakeCase({
+      whisky: {
+        name: whiskyName,
+        locationId,
+        tastingNotes,
+        rating
+      }})
+
     const response = await fetch(`${API_URL}/whiskies`, {
       method: 'POST',
       headers: {
@@ -45,17 +54,11 @@ export default function HelloComponent({}) {
         "Content-Type": "application/json",
         'X-CSRF-Token': getCSRFToken(),
       },
-      body: JSON.stringify({
-        whisky: {
-          name: whiskyName,
-          location_id: locationId,
-          tasting_notes: tastingNotes,
-          rating: rating
-        }
-      }),
+      body: JSON.stringify(newWhiskyData),
       credentials: 'same-origin'
     })
-    const newWhisky =  await response.json()
+    const rawJSON = await response.json()
+    const newWhisky = keysToCamelCase(rawJSON)
 
     setWhiskies((prev) => [...prev, newWhisky])
     setOpen(false)
@@ -81,11 +84,11 @@ export default function HelloComponent({}) {
 
   useEffect(() => {
     getData('whiskies').then((response) => {
-      setWhiskies(response)
+      setWhiskies(keysToCamelCase(response))
     })
 
     getData('locations').then((response) => {
-      setLocations(response)
+      setLocations(keysToCamelCase(response))
     })
   }, [])
 
@@ -94,7 +97,7 @@ export default function HelloComponent({}) {
   }
 
   const cardText = (whisky) => {
-    return `${whisky.name}, you tasting notes were: ${whisky.tasting_notes}, location: ${whiskeyLocation(whisky.location_id)}`
+    return `${whisky.name}, you tasting notes were: ${whisky.tastingNotes}, location: ${whiskeyLocation(whisky.locationId)}`
   }
 
   return (
