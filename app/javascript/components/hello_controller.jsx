@@ -97,7 +97,7 @@ export default function HelloComponent({}) {
   }, [])
 
   const whiskeyLocation = (locationId) => {
-    return _.find(locations, {id: locationId}).name
+    return _.find(locations, {id: locationId})?.name
   }
 
   const cardText = (whisky) => {
@@ -179,9 +179,9 @@ export default function HelloComponent({}) {
           </>
         ))}
       </StackView>
-      <Modal open={showWhisky} width={200}>
+      {showWhisky && (
         <Show whisky={selectedWhisky} location={selectedLocation} setShowWhisky={setShowWhisky}/>
-      </Modal>
+      )}
     </StackView>
   )
 }

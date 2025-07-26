@@ -42,8 +42,7 @@ class WhiskiesController < ApplicationController
   def update
     respond_to do |format|
       if @whisky.update(whisky_params)
-        format.html { redirect_to @whisky, notice: "Whisky was successfully updated." }
-        format.json { render :show, status: :ok, location: @whisky }
+        format.json { render json: @whisky.as_json(include: :location) }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @whisky.errors, status: :unprocessable_entity }
