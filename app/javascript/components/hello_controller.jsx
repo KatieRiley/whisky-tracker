@@ -3,26 +3,30 @@ import {
   Button,
   Card,
   Collapse,
-  Field,
   Heading,
   Input,
+  Modal,
   List,
   Select,
   StackView,
 } from '@planningcenter/tapestry-react'
 import _ from 'lodash'
 import { keysToCamelCase, keysToSnakeCase } from "../utils/keysToSnakeCase"
+import Show from "./whisky/show"
 
 export default function HelloComponent({}) {
 
   const API_URL = 'http://localhost:3000/'
   const [whiskies, setWhiskies] = useState([])
   const [locations, setLocations] = useState([])
+  const [selectedWhisky, setSelectedWhisky] = useState({})
+  const [selectedLocation, setSelectedLocation] = useState({})
   const [open, setOpen] = useState(false)
   const [whiskyName, setWhiskyName] = useState('')
   const [tastingNotes, setTastingNotes] = useState('')
   const [rating, setRating] = useState(0)
   const [locationId, setLocationId] = useState(0)
+  const [showWhisky, setShowWhisky] = useState(false)
 
   const getData = async (what) => {
     const response = await fetch(`${API_URL}/${what}`, {
@@ -100,6 +104,12 @@ export default function HelloComponent({}) {
     return `${whisky.name}, you tasting notes were: ${whisky.tastingNotes}, location: ${whiskeyLocation(whisky.locationId)}`
   }
 
+  const setUpModal = (whisky) => {
+    setSelectedWhisky(whisky)
+    setSelectedLocation(_.find(locations, {id: whisky.locationId}))
+    setShowWhisky(true)
+  }
+
   return (
     <StackView padding={6} backgroundColor={'secondary'}>
       <StackView >
@@ -145,26 +155,33 @@ export default function HelloComponent({}) {
                   ))}
                 </Select>
             </StackView>
-              <Button
-                padding={1}
-                size='sm'
-                variant='naked'
-                theme={'primary'}
-                title="add whisky"
-                onClick={() => addWhisky()}
-              />
+            <StackView width={15}>
+                <Button
+                  padding={1}
+                  size='sm'
+                  variant='naked'
+                  theme={'primary'}
+                  title="add whisky"
+                  onClick={() => addWhisky()}
+                />
+            </StackView>
             </StackView>
         </Collapse>
         {whiskies.map((whisky) => (
-          <Card
-            as={List}
-            marginTop={1}
-            onItemRemoveRequest={() => removeWhisky(whisky)}
-          >
-              <List.Item>{cardText(whisky)}</List.Item>
-          </Card>
+          <>
+            <Card
+              as={List}
+              marginTop={1}
+              onItemRemoveRequest={() => removeWhisky(whisky)}
+            >
+                <List.Item onClick={()=> setUpModal(whisky)}>{cardText(whisky)}</List.Item>
+            </Card>
+          </>
         ))}
       </StackView>
+      <Modal open={showWhisky} width={200}>
+        <Show whisky={selectedWhisky} location={selectedLocation} setShowWhisky={setShowWhisky}/>
+      </Modal>
     </StackView>
   )
 }
