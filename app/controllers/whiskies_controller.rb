@@ -30,7 +30,7 @@ class WhiskiesController < ApplicationController
 
     respond_to do |format|
       if @whisky.save
-        format.json { render json: @whiskies }
+        format.json { render json: @whisky.as_json(include: :location), status: :created }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @whisky.errors, status: :unprocessable_entity }

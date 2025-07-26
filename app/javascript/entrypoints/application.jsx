@@ -30,7 +30,7 @@ function mountReactRoot() {
     },
     colors: {
       primary: 'hotpink',
-      secondary: 'lime',
+      secondary: 'pink',
     },
   }
 
