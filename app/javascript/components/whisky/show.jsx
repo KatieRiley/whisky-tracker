@@ -11,7 +11,6 @@ import {
 } from '@planningcenter/tapestry-react'
 import _ from 'lodash'
 import EditWhisky from "../apis/whiskies/edit"
-import { keysToSnakeCase } from "../../utils/keysToSnakeCase"
 
 export default function Show({whisky, location, setShowWhisky}) {
   const [saving, setSaving] = useState(false)
