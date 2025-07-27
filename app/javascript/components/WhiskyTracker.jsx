@@ -17,15 +17,14 @@ import GetData from "./apis/getData"
 import Show from "./whisky/show"
 import Add from "./whisky/add"
 
-export default function HelloComponent({}) {
-
+export default function WhiskyTracker({}) {
   const [whiskies, setWhiskies] = useState([])
   const [locations, setLocations] = useState([])
   const [selectedWhisky, setSelectedWhisky] = useState({})
   const [selectedLocation, setSelectedLocation] = useState({})
   const [openAdd, setOpenAdd] = useState(false)
-  const [openShow, setOpenShow] = useState(false)
   const [showWhisky, setShowWhisky] = useState(false)
+  const [showX, setShowX] = useState(-1)
 
   const removeWhisky = async (whisky) => {
     await DeleteWhisky(whisky)
@@ -81,15 +80,29 @@ export default function HelloComponent({}) {
           />
         </Collapse>
         {whiskies.map((whisky) => (
-          <>
-            <Card
-              as={List}
-              marginTop={1}
-              onItemRemoveRequest={() => removeWhisky(whisky)}
+          <Card
+            key={whisky.id}
+            as={List}
+            marginTop={1}
+          >
+            <List.Item
+              onClick={()=> setUpModal(whisky)}
+              onMouseEnter={() => setShowX(whisky.id)}
+              onMouseLeave={() => setShowX(null)}
             >
-                <List.Item onClick={()=> setUpModal(whisky)}>{cardText(whisky)}</List.Item>
-            </Card>
-          </>
+              {cardText(whisky)}
+              {showX === whisky.id && (<Button
+                icon={{name: 'general.xCircle'}}
+                size="xs"
+                variant="naked"
+                title="Delete"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  removeWhisky(whisky)
+                }}
+              />)}
+            </List.Item>
+          </Card>
         ))}
       </StackView>
     </StackView>
