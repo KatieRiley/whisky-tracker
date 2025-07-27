@@ -32,6 +32,26 @@ function mountReactRoot() {
       primary: '#4A3F35',
       secondary: '#A48F7A',
     },
+    boxSizes: {
+      sm: {
+        boxSize: 3,
+        fontSize: 5,
+        lineHeight: 2.5,
+        paddingHorizontalDense: 0.5,
+        paddingHorizontal: 1,
+        paddingVertical: 0.25,
+        radius: 3,
+      },
+      md: {
+        boxSize: 4,
+        fontSize: 4,
+        lineHeight: 3,
+        paddingHorizontalDense: 1,
+        paddingHorizontal: 1.375,
+        paddingVertical: 0.5,
+        radius: 4,
+      },
+    }
   }
 
   createRoot(appRoot).render(

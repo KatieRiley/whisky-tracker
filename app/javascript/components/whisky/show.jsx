@@ -43,13 +43,22 @@ export default function Show({whisky, location, setShowWhisky, setWhiskies}) {
           <>
             <StackView axis="horizontal" distribution="end" paddingBottom={2} height={5}>
               <Button
-                size="xs"
+                padding={1}
+                size="md"
                 theme="primary"
                 variant='naked'
                 title={editing ? 'Save' : 'Edit'}
                 onClick={() => {editing ? saveNewWhisky() : setEditing(!editing)}}
               >{editing ? 'Save' : 'Edit'}</Button>
-              <Button order={1} marginLeft={1} width={5} onClick={() => {setShowWhisky(false)}}>Close</Button>
+              <Button
+                size="md"
+                spacing={2}
+                order={1}
+                marginLeft={1}
+                onClick={() => {setShowWhisky(false)}}
+              >
+                Close
+              </Button>
             </StackView>
             <StackView inline axis="horizontal" distribution="space-evenly" spacing={1}>
               <Heading level={1}>
@@ -68,7 +77,7 @@ export default function Show({whisky, location, setShowWhisky, setWhiskies}) {
               >
                 {editing ? (
                   <StepperField
-                    size='lg'
+                    size='md'
                     min={0}
                     max={10}
                     value={rating}

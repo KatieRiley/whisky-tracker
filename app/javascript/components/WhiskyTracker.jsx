@@ -61,7 +61,7 @@ export default function WhiskyTracker({}) {
         <StackView axis='horizontal' distribution="space-between" minHeight={10} alignment="center">
           <Heading>Hello, lets take a look at all of your whiskies you have tried:</Heading>
           <Button
-            padding={1}
+            size="md"
             variant='naked'
             title={openAdd ? 'Done' : 'Add'}
             theme={'primary'}
