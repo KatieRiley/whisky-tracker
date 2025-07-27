@@ -34,6 +34,24 @@ export default function Show({whisky, location, setShowWhisky, setWhiskies}) {
     setEditing(false)
   }
 
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+
+    const dateStr = new Intl.DateTimeFormat("en-US", {
+      month: "numeric",
+      day: "numeric",
+      year: "2-digit",
+    }).format(date);
+
+    const timeStr = new Intl.DateTimeFormat("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    }).format(date);
+
+    return `${dateStr} at ${timeStr}`;
+  }
+
   return (
     <StackView>
       <Form
@@ -98,7 +116,7 @@ export default function Show({whisky, location, setShowWhisky, setWhiskies}) {
             </StackView>
             <Divider margin={2}/>
             <StackView inline axis="horizontal" distribution="space-evenly" paddingBottom={5}>
-              <Text>{`Tasted at ${whisky.createdAt}`}</Text>
+              <Text>{`Tasted on ${formatDate(whisky.createdAt)}`}</Text>
               <Text>{`Location: ${location.name}`}</Text>
             </StackView>
           </>
