@@ -11,12 +11,14 @@ import {
   StackView,
 } from '@planningcenter/tapestry-react'
 import _ from 'lodash'
-import { keysToCamelCase, keysToSnakeCase } from "../utils/keysToSnakeCase"
+import { keysToCamelCase } from "../utils/keysToSnakeCase"
+import  AddWhisky  from "./apis/whiskies/add"
 import Show from "./whisky/show"
+import DeleteWhisky from "./apis/whiskies/remove"
+import GetData from "./apis/getData"
 
 export default function HelloComponent({}) {
 
-  const API_URL = 'http://localhost:3000/'
   const [whiskies, setWhiskies] = useState([])
   const [locations, setLocations] = useState([])
   const [selectedWhisky, setSelectedWhisky] = useState({})
@@ -28,70 +30,23 @@ export default function HelloComponent({}) {
   const [locationId, setLocationId] = useState(0)
   const [showWhisky, setShowWhisky] = useState(false)
 
-  const getData = async (what) => {
-    const response = await fetch(`${API_URL}/${what}`, {
-      headers: {
-        Accept: "application/json",
-      },
-    })
-    const json =  response.json()
-    return json
-  }
-
-  const getCSRFToken = () => {
-    return document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-  }
-
   const addWhisky = async () => {
-    const newWhiskyData = keysToSnakeCase({
-      whisky: {
-        name: whiskyName,
-        locationId,
-        tastingNotes,
-        rating
-      }})
-
-    const response = await fetch(`${API_URL}/whiskies`, {
-      method: 'POST',
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        'X-CSRF-Token': getCSRFToken(),
-      },
-      body: JSON.stringify(newWhiskyData),
-      credentials: 'same-origin'
-    })
-    const rawJSON = await response.json()
-    const newWhisky = keysToCamelCase(rawJSON)
-
+    const newWhisky = await AddWhisky({name: whiskyName, tastingNotes, rating, locationId})
     setWhiskies((prev) => [...prev, newWhisky])
     setOpen(false)
   }
 
   const removeWhisky = async (whisky) => {
-    const response = await fetch(`${API_URL}/whiskies/${whisky.id}`, {
-      method: 'DELETE',
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        'X-CSRF-Token': getCSRFToken(),
-      },
-      credentials: 'same-origin'
-    })
-
-    if(response.ok) {
-      setWhiskies((prev) => prev.filter((w) => w.id !== whisky.id))
-    } else {
-      console.error("failed to delete whisky")
-    }
+    await DeleteWhisky(whisky)
+    setWhiskies((prev) => prev.filter((w) => w.id !== whisky.id))
   }
 
   useEffect(() => {
-    getData('whiskies').then((response) => {
+    GetData('whiskies').then((response) => {
       setWhiskies(keysToCamelCase(response))
     })
 
-    getData('locations').then((response) => {
+    GetData('locations').then((response) => {
       setLocations(keysToCamelCase(response))
     })
   }, [])
