@@ -15,7 +15,7 @@ const EditWhisky = async (data) => {
       id: data.id
     }})
 
-  await fetch(`${API_URL}/whiskies/${data.id}`, {
+  const response = await fetch(`${API_URL}/whiskies/${data.id}`, {
     method: 'PATCH',
     headers: {
       Accept: "application/json",
@@ -25,6 +25,9 @@ const EditWhisky = async (data) => {
     body: JSON.stringify(newWhiskyData),
     credentials: 'same-origin'
   })
+
+  const json = await response.json()
+  return keysToCamelCase(json)
 }
 
   export default EditWhisky

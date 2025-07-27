@@ -73,7 +73,12 @@ export default function HelloComponent({}) {
           <Add locations={locations} setWhiskies={setWhiskies} setOpen={setOpenAdd}/>
         </Collapse>
         <Collapse open={showWhisky} lazy>
-          <Show whisky={selectedWhisky} location={selectedLocation} setShowWhisky={setShowWhisky}/>
+          <Show
+            whisky={selectedWhisky}
+            location={selectedLocation}
+            setShowWhisky={setShowWhisky}
+            setWhiskies={setWhiskies}
+          />
         </Collapse>
         {whiskies.map((whisky) => (
           <>

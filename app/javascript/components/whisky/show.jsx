@@ -12,7 +12,7 @@ import {
 import _ from 'lodash'
 import EditWhisky from "../apis/whiskies/edit"
 
-export default function Show({whisky, location, setShowWhisky}) {
+export default function Show({whisky, location, setShowWhisky, setWhiskies}) {
   const [name, setName] = useState('')
   const [editing, setEditing] = useState(false)
   const [tastingNotes, setTastingNotes] = useState('')
@@ -25,7 +25,8 @@ export default function Show({whisky, location, setShowWhisky}) {
   },[])
 
   const editWhisky = async () => {
-    await EditWhisky({name, tastingNotes, rating, id: whisky.id})
+    const updatedWhisky = await EditWhisky({name, tastingNotes, rating, id: whisky.id})
+    setWhiskies((prev) => prev.map((w) => w.id === whisky.id ? updatedWhisky : w))
   }
 
   const saveNewWhisky = () => {
