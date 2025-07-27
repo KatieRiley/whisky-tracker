@@ -11,7 +11,7 @@ import {
   StackView,
 } from '@planningcenter/tapestry-react'
 import _ from 'lodash'
-import { keysToCamelCase, keysToSnakeCase } from "../utils/keysToSnakeCase"
+import { keysToCamelCase } from "../utils/keysToSnakeCase"
 import  AddWhisky  from "./apis/whiskies/add"
 import Show from "./whisky/show"
 import DeleteWhisky from "./apis/whiskies/remove"
@@ -19,7 +19,6 @@ import GetData from "./apis/getData"
 
 export default function HelloComponent({}) {
 
-  const API_URL = 'http://localhost:3000/'
   const [whiskies, setWhiskies] = useState([])
   const [locations, setLocations] = useState([])
   const [selectedWhisky, setSelectedWhisky] = useState({})
@@ -30,10 +29,6 @@ export default function HelloComponent({}) {
   const [rating, setRating] = useState(0)
   const [locationId, setLocationId] = useState(0)
   const [showWhisky, setShowWhisky] = useState(false)
-
-  const getCSRFToken = () => {
-    return document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-  }
 
   const addWhisky = async () => {
     const newWhisky = await AddWhisky({name: whiskyName, tastingNotes, rating, locationId})

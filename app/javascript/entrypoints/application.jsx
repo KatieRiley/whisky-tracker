@@ -1,6 +1,6 @@
 import React from "react"
 import { createRoot } from "react-dom/client"
-import HelloComponent from "../components/hello_controller"
+import WhiskyTracker from "../components/WhiskyTracker"
 import { ThemeProvider } from "@planningcenter/tapestry-react" 
 
 console.log("Vite ⚡️ Rails")
@@ -36,7 +36,7 @@ function mountReactRoot() {
 
   createRoot(appRoot).render(
     <ThemeProvider theme={theme}>
-      <HelloComponent {...props} />
+      <WhiskyTracker {...props} />
     </ThemeProvider>
   )
 }
