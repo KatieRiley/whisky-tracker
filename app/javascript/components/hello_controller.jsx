@@ -12,6 +12,7 @@ import {
 } from '@planningcenter/tapestry-react'
 import _ from 'lodash'
 import { keysToCamelCase, keysToSnakeCase } from "../utils/keysToSnakeCase"
+import  AddWhisky  from "./apis/whiskies/add"
 import Show from "./whisky/show"
 
 export default function HelloComponent({}) {
@@ -43,27 +44,7 @@ export default function HelloComponent({}) {
   }
 
   const addWhisky = async () => {
-    const newWhiskyData = keysToSnakeCase({
-      whisky: {
-        name: whiskyName,
-        locationId,
-        tastingNotes,
-        rating
-      }})
-
-    const response = await fetch(`${API_URL}/whiskies`, {
-      method: 'POST',
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        'X-CSRF-Token': getCSRFToken(),
-      },
-      body: JSON.stringify(newWhiskyData),
-      credentials: 'same-origin'
-    })
-    const rawJSON = await response.json()
-    const newWhisky = keysToCamelCase(rawJSON)
-
+    const newWhisky = await AddWhisky({name: whiskyName, tastingNotes, rating, locationId})
     setWhiskies((prev) => [...prev, newWhisky])
     setOpen(false)
   }
