@@ -14,6 +14,7 @@ import _ from 'lodash'
 import { keysToCamelCase, keysToSnakeCase } from "../utils/keysToSnakeCase"
 import  AddWhisky  from "./apis/whiskies/add"
 import Show from "./whisky/show"
+import DeleteWhisky from "./apis/whiskies/remove"
 import GetData from "./apis/getData"
 
 export default function HelloComponent({}) {
@@ -41,21 +42,8 @@ export default function HelloComponent({}) {
   }
 
   const removeWhisky = async (whisky) => {
-    const response = await fetch(`${API_URL}/whiskies/${whisky.id}`, {
-      method: 'DELETE',
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        'X-CSRF-Token': getCSRFToken(),
-      },
-      credentials: 'same-origin'
-    })
-
-    if(response.ok) {
-      setWhiskies((prev) => prev.filter((w) => w.id !== whisky.id))
-    } else {
-      console.error("failed to delete whisky")
-    }
+    await DeleteWhisky(whisky)
+    setWhiskies((prev) => prev.filter((w) => w.id !== whisky.id))
   }
 
   useEffect(() => {
