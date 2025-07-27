@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react"
 import {
-  Badge,
   Button,
   Divider,
   Form,
   Heading,
   Input,
   StackView,
+  StepperField,
   Text,
 } from '@planningcenter/tapestry-react'
 import _ from 'lodash'
@@ -51,7 +51,7 @@ export default function Show({whisky, location, setShowWhisky}) {
                 size="xs"
                 theme="primary"
                 variant="outline"
-                title={'edit'}
+                title={editing ? 'Save' : 'Edit'}
                 onClick={() => {editing ? saveNewWhisky() : setEditing(!editing)}}
               >{editing ? 'Save' : 'Edit'}</Button>
               <Button order={1} marginLeft={1} width={5} onClick={() => {setShowWhisky(false)}}>Close</Button>
@@ -61,25 +61,34 @@ export default function Show({whisky, location, setShowWhisky}) {
                 <Input.Inline
                   disabled={!editing}
                   size="xl"
-                  value={whisky.name}
+                  value={name}
                   onChange={e => setWhiskyName(e.target.value)}
                 />
               </Heading>
-              <Badge width={7} size="lg" title={
-                <StackView position="center" distribution="space-evenly" paddingLeft={3}>
-                  <Input.InputField
-                    disabled={!editing}
-                    defaultValue={whisky.rating}
-                    onChange={e => setRating(e.target.value)}
+              <StackView 
+                axis="horizontal"
+                alignment="center"
+                distribution="space-between"
+                spacing={2}
+              >
+                {editing ? (
+                  <StepperField
+                    size='lg'
+                    min={0}
+                    max={10}
+                    value={rating}
+                    onChange={e => setRating(e)}
                   />
-                </StackView>
-              } color="primary"/>
+                ) : (
+                  <Text>{`${rating}`}</Text>
+                )}
+              </StackView>
             </StackView>
             <StackView>
               <Input.InputLabel>Tasting Notes</Input.InputLabel>
               <Input.InputField
                 disabled={!editing}
-                defaultValue={whisky.tastingNotes}
+                defaultValue={tastingNotes}
                 onChange={e => setTastingNotes(e.target.value)}
               />
             </StackView>
