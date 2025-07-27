@@ -14,6 +14,7 @@ import _ from 'lodash'
 import { keysToCamelCase, keysToSnakeCase } from "../utils/keysToSnakeCase"
 import  AddWhisky  from "./apis/whiskies/add"
 import Show from "./whisky/show"
+import GetData from "./apis/getData"
 
 export default function HelloComponent({}) {
 
@@ -28,16 +29,6 @@ export default function HelloComponent({}) {
   const [rating, setRating] = useState(0)
   const [locationId, setLocationId] = useState(0)
   const [showWhisky, setShowWhisky] = useState(false)
-
-  const getData = async (what) => {
-    const response = await fetch(`${API_URL}/${what}`, {
-      headers: {
-        Accept: "application/json",
-      },
-    })
-    const json =  response.json()
-    return json
-  }
 
   const getCSRFToken = () => {
     return document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
@@ -68,11 +59,11 @@ export default function HelloComponent({}) {
   }
 
   useEffect(() => {
-    getData('whiskies').then((response) => {
+    GetData('whiskies').then((response) => {
       setWhiskies(keysToCamelCase(response))
     })
 
-    getData('locations').then((response) => {
+    GetData('locations').then((response) => {
       setLocations(keysToCamelCase(response))
     })
   }, [])
