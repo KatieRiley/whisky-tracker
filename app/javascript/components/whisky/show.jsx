@@ -13,7 +13,6 @@ import _ from 'lodash'
 import EditWhisky from "../apis/whiskies/edit"
 
 export default function Show({whisky, location, setShowWhisky}) {
-  const [saving, setSaving] = useState(false)
   const [name, setName] = useState('')
   const [editing, setEditing] = useState(false)
   const [tastingNotes, setTastingNotes] = useState('')
@@ -24,11 +23,6 @@ export default function Show({whisky, location, setShowWhisky}) {
     setRating(whisky?.rating)
     setName(whisky?.name)
   },[])
-
-  useEffect (() => {
-    setSaving(true)
-    setTimeout(() => setSaving(false), 2000)
-  }, [name])
 
   const editWhisky = async () => {
     await EditWhisky({name, tastingNotes, rating, id: whisky.id})
@@ -46,11 +40,11 @@ export default function Show({whisky, location, setShowWhisky}) {
       >
         {({}) => (
           <>
-            <StackView axis="horizontal" distribution="end" paddingBottom={2} variant='naked' height={5}>
+            <StackView axis="horizontal" distribution="end" paddingBottom={2} height={5}>
               <Button
                 size="xs"
                 theme="primary"
-                variant="outline"
+                variant='naked'
                 title={editing ? 'Save' : 'Edit'}
                 onClick={() => {editing ? saveNewWhisky() : setEditing(!editing)}}
               >{editing ? 'Save' : 'Edit'}</Button>
@@ -93,7 +87,7 @@ export default function Show({whisky, location, setShowWhisky}) {
               />
             </StackView>
             <Divider margin={2}/>
-            <StackView inline axis="horizontal" distribution="space-evenly">
+            <StackView inline axis="horizontal" distribution="space-evenly" paddingBottom={5}>
               <Text>{`Tasted at ${whisky.createdAt}`}</Text>
               <Text>{`Location: ${location.name}`}</Text>
             </StackView>

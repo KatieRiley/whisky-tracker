@@ -29,8 +29,8 @@ function mountReactRoot() {
       desktop: 960,
     },
     colors: {
-      primary: 'hotpink',
-      secondary: 'pink',
+      primary: '#4A3F35',
+      secondary: '#A48F7A',
     },
   }
 
