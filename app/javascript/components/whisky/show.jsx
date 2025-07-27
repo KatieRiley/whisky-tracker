@@ -66,57 +66,48 @@ export default function Show({whisky, location, setShowWhisky}) {
 
   return (
     <StackView>
-      <Form
-        initialPayload={{whisky}}
-        onSubmit={() => console.log("editing")}
-      >
-        {({}) => (
-          <>
-            <StackView axis="horizontal" distribution="end" paddingBottom={2} variant='naked' height={5}>
-              <Button
-                size="xs"
-                theme="primary"
-                variant="outline"
-                title={'edit'}
-                onClick={() => {editing ? saveNewWhisky() : setEditing(!editing)}}
-              >{editing ? 'Save' : 'Edit'}</Button>
-              <Button order={1} marginLeft={1} width={5} onClick={() => {setShowWhisky(false)}}>Close</Button>
-            </StackView>
-            <StackView inline axis="horizontal" distribution="space-evenly" spacing={1}>
-              <Heading level={1}>
-                <Input.Inline
-                  disabled={!editing}
-                  size="xl"
-                  value={whisky.name}
-                  onChange={e => setWhiskyName(e.target.value)}
-                />
-              </Heading>
-              <Badge width={7} size="lg" title={
-                <StackView position="center" distribution="space-evenly" paddingLeft={3}>
-                  <Input.InputField
-                    disabled={!editing}
-                    defaultValue={whisky.rating}
-                    onChange={e => setRating(e.target.value)}
-                  />
-                </StackView>
-              } color="primary"/>
-            </StackView>
-            <StackView>
-              <Input.InputLabel>Tasting Notes</Input.InputLabel>
-              <Input.InputField
-                disabled={!editing}
-                defaultValue={whisky.tastingNotes}
-                onChange={e => setTastingNotes(e.target.value)}
-              />
-            </StackView>
-            <Divider margin={2}/>
-            <StackView inline axis="horizontal" distribution="space-evenly">
-              <Text>{`Tasted at ${whisky.createdAt}`}</Text>
-              <Text>{`Location: ${location.name}`}</Text>
-            </StackView>
-          </>
-        )}
-      </Form>
+      <StackView axis="horizontal" distribution="end" paddingBottom={2} variant='naked' height={5}>
+        <Button
+          size="xs"
+          theme="primary"
+          variant="outline"
+          title={'edit'}
+          onClick={() => {editing ? saveNewWhisky() : setEditing(!editing)}}
+        >{editing ? 'Save' : 'Edit'}</Button>
+        <Button order={1} marginLeft={1} width={5} onClick={() => {setShowWhisky(false)}}>Close</Button>
+      </StackView>
+      <StackView inline axis="horizontal" distribution="space-evenly" spacing={1}>
+        <Heading level={1}>
+          <Input.Inline
+            disabled={!editing}
+            size="xl"
+            value={whisky.name}
+            onChange={e => setWhiskyName(e.target.value)}
+          />
+        </Heading>
+        <Badge width={7} size="lg" title={
+          <StackView position="center" distribution="space-evenly" paddingLeft={3}>
+            <Input.InputField
+              disabled={!editing}
+              defaultValue={whisky.rating}
+              onChange={e => setRating(e.target.value)}
+            />
+          </StackView>
+        } color="primary"/>
+      </StackView>
+      <StackView>
+        <Input.InputLabel>Tasting Notes</Input.InputLabel>
+        <Input.InputField
+          disabled={!editing}
+          defaultValue={whisky.tastingNotes}
+          onChange={e => setTastingNotes(e.target.value)}
+        />
+      </StackView>
+      <Divider margin={2}/>
+      <StackView inline axis="horizontal" distribution="space-evenly">
+        <Text>{`Tasted at ${whisky.createdAt}`}</Text>
+        <Text>{`Location: ${location.name}`}</Text>
+      </StackView>
     </StackView>
   )
 }

@@ -101,7 +101,7 @@ export default function HelloComponent({}) {
   }
 
   const cardText = (whisky) => {
-    return `${whisky.name}, you tasting notes were: ${whisky.tastingNotes}, location: ${whiskeyLocation(whisky.locationId)}`
+    return `${whisky.name}, you tasting notes were: ${whisky.tastingNotes}, your rating: ${whisky.rating}, location: ${whiskeyLocation(whisky.locationId)}`
   }
 
   const setUpModal = (whisky) => {
