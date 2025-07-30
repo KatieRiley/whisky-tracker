@@ -19,10 +19,6 @@ function mountReactRoot() {
   }
 
   const theme = {
-    boxSizes: {
-      small: { paddingHorizontal: 1, paddingVertical: 0.75 },
-      medium: { paddingHorizontal: 1.5, paddingVertical: 1 },
-    },
     breakpoints: {
       phone: 480,
       tablet: 720,
