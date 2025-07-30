@@ -44,13 +44,7 @@ export default function Add({locations, setWhiskies, setOpen}) {
           <Input.InputLabel>Location</Input.InputLabel>
             <Select
               id="my-select-menu"
-              onChange={(value) => {
-                if (value === -1) {
-                  setAddLocationModal(true); // open modal
-                } else {
-                  setLocationId(value); // regular selection
-                }
-              }}
+              onChange={({ value }) => setLocationId(value)}
             >
               {locations.map((location) => (
                 <Select.Option
