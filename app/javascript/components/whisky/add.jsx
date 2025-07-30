@@ -1,8 +1,11 @@
 import React, {useEffect, useState} from "react"
 import {
   Button,
+  Divider,
   Icon,
   Input,
+  Menu,
+  Modal,
   Select,
   StackView,
   StepperField,
@@ -17,6 +20,7 @@ export default function Add({locations, setWhiskies, setOpen}) {
   const [tastingNotes, setTastingNotes] = useState('')
   const [rating, setRating] = useState(0)
   const [locationId, setLocationId] = useState(0)
+  const [addLocationModal, setAddLocationModal] = useState(false)
 
   const addWhisky = async () => {
     const newWhisky = await AddWhisky({name: whiskyName, tastingNotes, rating, locationId})
@@ -40,17 +44,29 @@ export default function Add({locations, setWhiskies, setOpen}) {
           <Input.InputLabel>Location</Input.InputLabel>
             <Select
               id="my-select-menu"
-              onChange={({ value }) => setLocationId(value)
-              }
+              onChange={(value) => {
+                if (value === -1) {
+                  setAddLocationModal(true); // open modal
+                } else {
+                  setLocationId(value); // regular selection
+                }
+              }}
             >
               {locations.map((location) => (
                 <Select.Option
                   value={location.id}
-                  onChange={(value)=> setLocationId(value)}
                 >
                   {`${location.name}`}
                 </Select.Option>
               ))}
+              <Divider margin={0.5} />
+              <Menu.Item distribution="fill" spacing={1}>
+                <Button
+                  size="sm"
+                  title='Add location'
+                  onClick={() => setAddLocationModal(true)}
+                />
+              </Menu.Item>
             </Select>
         </StackView>
         <StackView>
@@ -105,6 +121,33 @@ export default function Add({locations, setWhiskies, setOpen}) {
           />
           </Tooltip>
       </StackView>
+      <Modal
+        open={addLocationModal}
+        onRequestClose={() => setAddLocationModal(false)}
+      >
+        <StackView>
+          <Input
+            placeholder={'name'}
+            autoFocus
+          />
+          <StackView axis="horizontal" distribution="end" paddingTop={2} spacing={1}>
+            <Button
+              order={1}
+              padding={1}
+              size='sm'
+              title="cancel"
+              onClick={() => setAddLocationModal(false)}
+            />
+            <Button
+              order={2}
+              padding={1}
+              size='sm'
+              title="add location"
+              onClick={() => setAddLocationModal(false)}
+            />
+          </StackView>
+        </StackView>
+      </Modal>
     </StackView>
   )
 }
