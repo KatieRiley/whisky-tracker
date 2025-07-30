@@ -1,10 +1,13 @@
 import React, {useEffect, useState} from "react"
 import {
   Button,
+  Icon,
   Input,
   Select,
   StackView,
   StepperField,
+  Text,
+  Tooltip,
 } from '@planningcenter/tapestry-react'
 import _ from 'lodash'
 import AddWhisky from '../apis/whiskies/add'
@@ -62,13 +65,45 @@ export default function Add({locations, setWhiskies, setOpen}) {
         </StackView>
       </StackView>
       <StackView width={15} paddingVertical={2}>
+        <Tooltip
+          title={
+            !locationId ? (
+              <StackView width={24} spacing={1} cursor="default">
+                <StackView axis="horizontal" alignment="center" spacing={1}>
+                  <Icon name="general.exclamationCircle" size="md" color="error" />
+                  <Text fontSize={3} weight={500} color="error">
+                    Error
+                  </Text>
+                </StackView>
+                <Text fontSize={3} lineHeight={3}>
+                  You must set a location.
+                </Text>
+              </StackView>
+            ) : (
+              ''
+            )}
+          openDelay={0}
+          closeDelay={300}
+          popoverProps={{
+            textAlign: 'left',
+            paddingHorizontal: 2,
+            paddingVertical: 2,
+            backgroundColor: 'surface',
+            color: 'foreground',
+            stroke: 'separator',
+            strokeWeight: 1,
+            elevation: 2,
+          }}
+        >
           <Button
+            disabled={!locationId}
             order={1}
             padding={1}
             size='md'
             title="add whisky"
             onClick={() => addWhisky()}
           />
+          </Tooltip>
       </StackView>
     </StackView>
   )
