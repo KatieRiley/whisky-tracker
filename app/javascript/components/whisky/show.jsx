@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react"
 import {
   Button,
+  DateField,
   Divider,
   Form,
   Heading,
@@ -15,6 +16,7 @@ import EditWhisky from "../apis/whiskies/edit"
 export default function Show({whisky, location, setShowWhisky, setWhiskies}) {
   const [name, setName] = useState('')
   const [editing, setEditing] = useState(false)
+  const [tastedAt, setTastedAt] = useState(Date.now())
   const [tastingNotes, setTastingNotes] = useState('')
   const [rating, setRating] = useState(0)
 
@@ -22,10 +24,11 @@ export default function Show({whisky, location, setShowWhisky, setWhiskies}) {
     setTastingNotes(whisky?.tastingNotes)
     setRating(whisky?.rating)
     setName(whisky?.name)
+    setTastedAt(whisky?.tastedAt)
   },[])
 
   const editWhisky = async () => {
-    const updatedWhisky = await EditWhisky({name, tastingNotes, rating, id: whisky.id})
+    const updatedWhisky = await EditWhisky({name, tastedAt, tastingNotes, rating, id: whisky.id})
     setWhiskies((prev) => prev.map((w) => w.id === whisky.id ? updatedWhisky : w))
   }
 
@@ -35,21 +38,21 @@ export default function Show({whisky, location, setShowWhisky, setWhiskies}) {
   }
 
   const formatDate = (timestamp) => {
-    const date = new Date(timestamp);
+    const date = new Date(timestamp)
 
     const dateStr = new Intl.DateTimeFormat("en-US", {
       month: "numeric",
       day: "numeric",
       year: "2-digit",
-    }).format(date);
+    }).format(date)
 
     const timeStr = new Intl.DateTimeFormat("en-US", {
       hour: "numeric",
       minute: "2-digit",
       hour12: true,
-    }).format(date);
+    }).format(date)
 
-    return `${dateStr} at ${timeStr}`;
+    return `${dateStr} at ${timeStr}`
   }
 
   return (
@@ -116,7 +119,15 @@ export default function Show({whisky, location, setShowWhisky, setWhiskies}) {
             </StackView>
             <Divider margin={2}/>
             <StackView inline axis="horizontal" distribution="space-evenly" paddingBottom={5}>
-              <Text>{`Tasted on ${formatDate(whisky.createdAt)}`}</Text>
+             {editing
+                ?
+                  <DateField
+                    onChange={(date) => setTastedAt(date)}
+                    value={new Date(tastedAt)}
+                  />
+                : <Text>{`Tasted on ${formatDate(tastedAt)}`}</Text>
+
+              }
               <Text>{`Location: ${location.name}`}</Text>
             </StackView>
           </>
