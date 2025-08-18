@@ -10,6 +10,7 @@ const EditWhisky = async (data) => {
   const newWhiskyData = keysToSnakeCase({
     whisky: {
       name: data.name,
+      tastedAt: data.tastedAt.toString(),
       tastingNotes: data.tastingNotes,
       rating: data.rating,
       id: data.id
