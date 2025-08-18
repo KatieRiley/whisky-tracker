@@ -69,7 +69,7 @@ export default function WhiskyTracker({}) {
           />
         </StackView>
         <Collapse open={openAdd} lazy>
-          <Add locations={locations} setWhiskies={setWhiskies} setOpen={setOpenAdd}/>
+          <Add locations={locations} setLocations={setLocations} setWhiskies={setWhiskies} setOpen={setOpenAdd}/>
         </Collapse>
         <Collapse open={showWhisky} lazy>
           <Show

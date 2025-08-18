@@ -30,8 +30,7 @@ class LocationsController < ApplicationController
 
     respond_to do |format|
       if @location.save
-        format.html { redirect_to @location, notice: "Location was successfully created." }
-        format.json { render :show, status: :created, location: @location }
+        format.json { render json: @location.as_json(), status: :created }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @location.errors, status: :unprocessable_entity }
@@ -70,6 +69,8 @@ class LocationsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def location_params
-      params.fetch(:location, {})
+      params.fetch(:location).permit(
+        :name,
+      )
     end
 end

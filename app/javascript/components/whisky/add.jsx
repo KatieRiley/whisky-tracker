@@ -14,18 +14,26 @@ import {
 } from '@planningcenter/tapestry-react'
 import _ from 'lodash'
 import AddWhisky from '../apis/whiskies/add'
+import AddLocation from "../apis/locations/add"
 
-export default function Add({locations, setWhiskies, setOpen}) {
+export default function Add({locations, setLocations, setWhiskies, setOpen}) {
   const [whiskyName, setWhiskyName] = useState('')
   const [tastingNotes, setTastingNotes] = useState('')
   const [rating, setRating] = useState(0)
   const [locationId, setLocationId] = useState(0)
+  const [locationName, setLocationName] = useState('')
   const [addLocationModal, setAddLocationModal] = useState(false)
 
   const addWhisky = async () => {
     const newWhisky = await AddWhisky({name: whiskyName, tastingNotes, rating, locationId})
     setWhiskies((prev) => [...prev, newWhisky])
     setOpen(false)
+  }
+
+  const addLocation = async () => {
+    setAddLocationModal(false)
+    const newLocation = await AddLocation({name: locationName})
+    setLocations((prev) => [...prev, newLocation])
   }
 
   return (
@@ -122,6 +130,7 @@ export default function Add({locations, setWhiskies, setOpen}) {
         <StackView>
           <Input
             placeholder={'name'}
+            onChange={e => setLocationName(e.target.value)}
             autoFocus
           />
           <StackView axis="horizontal" distribution="end" paddingTop={2} spacing={1}>
@@ -137,7 +146,7 @@ export default function Add({locations, setWhiskies, setOpen}) {
               padding={1}
               size='sm'
               title="add location"
-              onClick={() => setAddLocationModal(false)}
+              onClick={() => addLocation()}
             />
           </StackView>
         </StackView>
